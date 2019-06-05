@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import requests
 from subprocess import check_output
@@ -27,6 +28,21 @@ def timer(path, time, driver, argument):
         exit(1)
 
 def solver(equation):
+    regex = '([0-9])([x])'
+    res = re.findall(regex, equation)
+    equation = equation.encode('utf-8','ignore')
+    equation = equation.replace('−', '-')
+    try:
+        change = res[0][0] + res[0][1]
+        equation = equation.replace(change, res[0][0] + ' * x')
+        try:
+            change = res[1][0] + res[1][1]
+            equation = equation.replace(change, res[0][0] + ' * x')
+        except:
+            pass
+    except:
+        pass
+    # Calculation of th equation
     x = sympy.Symbol('x')
     try:
         left, right = equation.split('=')

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # imports
 import matFes
 import time
@@ -34,7 +35,7 @@ driver.find_element_by_name('login').click()
 # open the module
 matFes.timer('//*[@id="frame"]/article/div[1]/article/div[3]/div[8]', 15, driver, By.XPATH)
 driver.find_element_by_xpath('//*[@id="frame"]/article/div[1]/article/div[3]/div[8]').click()
-matFes.timer('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a', 5, driver, By.XPATH)
+matFes.timer('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a', 10, driver, By.XPATH)
 driver.find_element_by_xpath('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a').click()
 # Answer the questions
 question = "??"
@@ -43,6 +44,6 @@ while True:
     questionTest = driver.find_element_by_xpath('//*[@id="MathJax-Span-2"]').text
     if questionTest != question:
         question = questionTest
-        print("New Slide")
+        print('New Slide')
         print(matFes.solver(question))
     time.sleep(1)
