@@ -28,10 +28,11 @@ def timer(path, time, driver, argument):
         exit(1)
 
 def solver(equation):
+    # Replace things in the equation
     regex = '([0-9])([x])'
     res = re.findall(regex, equation)
     equation = equation.encode('utf-8','ignore')
-    equation = equation.replace('−', '-')
+    #equation = equation.replace('−', '-')
     try:
         change = res[0][0] + res[0][1]
         equation = equation.replace(change, res[0][0] + ' * x')
@@ -42,7 +43,7 @@ def solver(equation):
             pass
     except:
         pass
-    # Calculation of th equation
+    # Calculation of the equation
     x = sympy.Symbol('x')
     try:
         left, right = equation.split('=')
@@ -51,3 +52,5 @@ def solver(equation):
         return(answer)
     except:
         print("Sorry can't answer that question :(")
+        equation2 = raw_input('equation: ')
+        print(solver(equation2))
