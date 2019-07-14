@@ -32,17 +32,8 @@ def solver(equation):
     regex = '([0-9])([x])'
     res = re.findall(regex, equation)
     equation = equation.encode('utf-8','ignore')
-    #equation = equation.replace('−', '-')
-    try:
-        change = res[0][0] + res[0][1]
-        equation = equation.replace(change, res[0][0] + ' * x')
-        try:
-            change = res[1][0] + res[1][1]
-            equation = equation.replace(change, res[0][0] + ' * x')
-        except:
-            pass
-    except:
-        pass
+    equation = equation.replace('−', '-')
+    equation = re.sub("(?<=\d)x", "*x", equation)
     # Calculation of the equation
     x = sympy.Symbol('x')
     try:

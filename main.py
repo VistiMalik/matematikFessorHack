@@ -10,9 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-
-# Get user
+# Get user info
 uniUserName = raw_input("Skriv dit uni-login brugernavn: ")
 uniPassword = getpass.getpass("Skriv dit uni-login password: ")
 
@@ -35,8 +33,8 @@ driver.find_element_by_name('login').click()
 # open the module
 matFes.timer('//*[@id="frame"]/article/div[1]/article/div[3]/div[8]', 15, driver, By.XPATH)
 driver.find_element_by_xpath('//*[@id="frame"]/article/div[1]/article/div[3]/div[8]').click()
-matFes.timer('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a', 10, driver, By.XPATH)
-driver.find_element_by_xpath('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a').click()
+matFes.timer('//*[@id="lightPopup_11"]/div[2]/div[1]/div[2]/a', 10, driver, By.XPATH)
+driver.find_element_by_xpath('//*[@id="lightPopup_11"]/div[2]/div[1]/div[2]/a').click()
 # Answer the questions
 question = "??"
 while True:
