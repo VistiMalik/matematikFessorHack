@@ -33,6 +33,7 @@ def solver(equation):
     res = re.findall(regex, equation)
     equation = equation.encode('utf-8','ignore')
     equation = equation.replace('−', '-')
+    equation = equation.replace('\n', '')
     equation = re.sub("(?<=\d)x", "*x", equation)
     # Calculation of the equation
     x = sympy.Symbol('x')
