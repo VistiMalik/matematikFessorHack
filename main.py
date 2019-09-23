@@ -11,8 +11,18 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Get user info
-uniUserName = raw_input("Skriv dit uni-login brugernavn: ")
-uniPassword = getpass.getpass("Skriv dit uni-login password: ")
+login = ["",""]
+try:
+    f = open('login', 'r')
+    login = f.readlines()
+    f.close()
+except:
+    print('File does not exist')
+    login[0] = raw_input("Skriv dit uni-login brugernavn: ")
+    login[1] = getpass.getpass("Skriv dit uni-login password: ")
+    f = open('login', 'w+')
+    f.write(login[0]+"\n"+login[1])
+    print(login)
 
 
 # Config driver
@@ -29,8 +39,8 @@ driver.get('https://matematikfessor.dk/ext/unilogin/login/?r=https%3A%2F%2Fwww.m
 
 # login
 matFes.timer('user', 5, driver, By.ID)
-driver.find_element_by_name('user').send_keys(uniUserName)
-driver.find_element_by_name('pass').send_keys(uniPassword)
+driver.find_element_by_name('user').send_keys(login[0])
+driver.find_element_by_name('pass').send_keys(login[1])
 driver.find_element_by_name('login').click()
 
 # open the module
