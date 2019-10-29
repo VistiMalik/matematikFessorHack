@@ -41,7 +41,6 @@ driver.get('https://matematikfessor.dk/ext/unilogin/login/?r=https%3A%2F%2Fwww.m
 matFes.timer('user', 5, driver, By.ID)
 driver.find_element_by_name('user').send_keys(login[0])
 driver.find_element_by_name('pass').send_keys(login[1])
-driver.find_element_by_name('login').click()
 
 # open the module
 #matFes.timer('//div[@class="testBar hideTime ready"]', 15, driver, By.XPATH)
@@ -49,13 +48,27 @@ driver.find_element_by_name('login').click()
 #matFes.timer('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a', 10, driver, By.XPATH)
 #driver.find_element_by_xpath('//*[@id="lightPopup_9"]/div[2]/div[1]/div[2]/a').click()
 
-input(":")
+
+
+
+
+# brøk streger er mjx-lin
+# potenser har mjx-sup som class
+# kvadratrod er mjx-surd
+
+
+
 # Find and solve the equations
 matFes.timer('//*[@id="MJXc-Node-6"]/span', 100000, driver, By.XPATH)
 questNum = 1
 while True:
-    questPath = '//*[@id="MathJax-Element-' + str(questNum) + '-Frame"]'
-    matFes.timer(questPath, 5000, driver, By.XPATH)
-    quest = driver.find_element_by_xpath(questPath).text
-    print (matFes.solver(quest))
+    #questPath = '//*[@id="MathJax-Element-' + str(questNum) + '-Frame"]'
+    #matFes.timer(questPath, 5000, driver, By.XPATH)
+    #quest = driver.find_element_by_xpath(questPath).text
+
+    time.sleep(30)
+
+    print len(driver.find_elements_by_class_name('multiple-choice-answers'))
+
+    #print (matFes.solver(quest))
     questNum += 8

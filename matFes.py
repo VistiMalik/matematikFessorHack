@@ -33,8 +33,12 @@ def solver(equation):
     res = re.findall(regex, equation)
     equation = equation.encode('utf-8','ignore')
     equation = equation.replace('−', '-')
+    equation = equation.replace('⋅', '*')
+    equation = equation.replace(':', '/')
+    equation = re.sub("\d+\n\d+", lambda x:x.group(0).replace("\n", '**'), equation)
     equation = equation.replace('\n', '')
     equation = re.sub("(?<=\d)x", "*x", equation)
+    equation = re.sub("=$", '=x', equation)
     # Calculation of the equation
     x = sympy.Symbol('x')
     try:
