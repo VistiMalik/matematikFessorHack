@@ -9,6 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
+import traceback
+
 
 # Get user info
 login = ["",""]
@@ -57,18 +59,19 @@ driver.find_element_by_name('pass').send_keys(login[1])
 # kvadratrod er mjx-surd
 
 
+matFes.timer('mjx-mrow', 2147483600, driver, By.CLASS_NAME)
+questions = driver.find_elements_by_class_name('card-scroller-child')
 
-# Find and solve the equations
-matFes.timer('//*[@id="MJXc-Node-6"]/span', 100000, driver, By.XPATH)
-questNum = 1
-while True:
-    #questPath = '//*[@id="MathJax-Element-' + str(questNum) + '-Frame"]'
-    #matFes.timer(questPath, 5000, driver, By.XPATH)
-    #quest = driver.find_element_by_xpath(questPath).text
 
-    time.sleep(30)
-
-    print len(driver.find_elements_by_class_name('multiple-choice-answers'))
-
-    #print (matFes.solver(quest))
-    questNum += 8
+i = 1
+for question in questions:
+    print("\n" + str(i) + '.)')
+    try:
+        equation = question.find_element_by_class_name('mjx-mrow').text
+        try:
+            print(matFes.solver(equation))
+        except:
+            print('Failed to run solver')
+    except:
+        print('Failed to resolve text')
+    i += 1

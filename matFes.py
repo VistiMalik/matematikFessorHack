@@ -47,6 +47,4 @@ def solver(equation):
         answer = sympy.solve(eq, x)[0]
         return(answer)
     except:
-        print("Sorry can't answer that question :(")
-        equation2 = raw_input('equation: ')
-        print(solver(equation2))
+        return 0
