@@ -60,14 +60,14 @@ driver.find_element_by_name('pass').send_keys(login[1])
 # kvadratrod er mjx-surd
 
 matFes.timer('question-header', 214783600, driver, By.CLASS_NAME)
-matFes.timer('mjx-mrow', 15, driver, By.CLASS_NAME)
+matFes.timer('question-content', 15, driver, By.CLASS_NAME)
 questions = driver.find_elements_by_class_name('card-scroller-child')
 time.sleep(5)
-
 #fractions
-frac = driver.find_elements_by_class_name('mjx-mfrac')
-print(frac[1])
-
+#frac = driver.find_elements_by_class_name('mjx-mfrac')
+#tller = frac[0].find_element_by_class_name('mjx-numerator').text
+#nvner = frac[0].find_element_by_class_name('mjx-denominator').text
+#
 
 
 
@@ -75,20 +75,23 @@ print(frac[1])
 # solve questions
 
 
-#i = 1
-#for question in questions:
-#    print("\n" + str(i) + '.)')
-#    try:
-#        equation = question.find_element_by_class_name('mjx-mrow').text
-#        try:
-#            print(matFes.solver(equation))
-#        except:
-#            print('Failed to run solver')
-#    except:
-#        try:
-#            equation = question.find_element_by_class_name('question-text-content').text
-#            print (equation)
-#        except:
-#            print('Failed to resolve text')
-#    i += 1
-#
+i = 1
+for question in questions:
+    print("\n" + str(i) + '.)')
+    try:
+        try:
+            fractest = question.find_element_by_class_name('mjx-mfrac').text
+            print('frac found')
+        except:
+            equation = question.find_element_by_class_name('mjx-mrow').text
+            try:
+                print(matFes.solver(equation))
+            except:
+                print('Failed to run solver')
+    except:
+        try:
+            equation = question.find_element_by_class_name('question-text-content').text
+            print (equation)
+        except:
+            print('Failed to resolve text')
+    i += 1
