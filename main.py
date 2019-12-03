@@ -54,8 +54,6 @@ driver.find_element_by_name('pass').send_keys(login[1])
 
 
 
-# brøk streger er mjx-lin
-#brøk mjx-mfrac
 # potenser har mjx-sup som class
 # kvadratrod er mjx-surd
 
@@ -63,16 +61,25 @@ matFes.timer('question-header', 214783600, driver, By.CLASS_NAME)
 matFes.timer('question-content', 15, driver, By.CLASS_NAME)
 questions = driver.find_elements_by_class_name('card-scroller-child')
 time.sleep(5)
-#fractions
-#frac = driver.find_elements_by_class_name('mjx-mfrac')
-#tller = frac[0].find_element_by_class_name('mjx-numerator').text
-#nvner = frac[0].find_element_by_class_name('mjx-denominator').text
-#
 
 
 
 
-# solve questions
+#################################################    HUSK AT FINDE FLERE END EN BRØK I LIGNINGEN ######################################
+
+def findFrac(num):
+    try:
+        frac = questions[num].find_elements_by_class_name('mjx-mfrac')
+        tller = frac[num].find_element_by_class_name('mjx-numerator').text
+        nvner = frac[num].find_element_by_class_name('mjx-denominator').text
+
+        equation = questions[num].find_element_by_class_name('mjx-mrow').text
+        fraceqation = equation.replace(tller + "\n" + nvner, ' ' + tller + '/' + nvner)
+        fraceqation = fraceqation.replace("\n", '')
+        return fraceqation
+        print('frac:' + +fraceqation)
+    except:
+        return 'end'
 
 
 i = 1
@@ -82,6 +89,17 @@ for question in questions:
         try:
             fractest = question.find_element_by_class_name('mjx-mfrac').text
             print('frac found')
+            fracnum = 0
+            fract=[]
+            while True():
+                frac = fracFind(fracnum)
+                if frac != 'end':
+                    fract.append(frac)
+                else:
+                    break
+                print('test' + fract)
+
+
         except:
             equation = question.find_element_by_class_name('mjx-mrow').text
             try:

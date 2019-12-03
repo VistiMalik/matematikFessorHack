@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 import sympy
-
+import fractions
 
 
 def getChromeDriver():
@@ -48,3 +48,6 @@ def solver(equation):
         return(answer)
     except:
         return 0
+
+def fracsolver():
+    print('not done')
