@@ -2,6 +2,7 @@
 # imports
 import matFes
 import time
+import re
 import getpass
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -59,7 +60,9 @@ driver.find_element_by_name('pass').send_keys(login[1])
 
 matFes.timer('question-header', 214783600, driver, By.CLASS_NAME)
 matFes.timer('question-content', 15, driver, By.CLASS_NAME)
-questions = driver.find_elements_by_class_name('card-scroller-child')
+#questions = driver.find_elements_by_class_name('card-scroller-child')
+
+questions = driver.find_elements_by_class_name('question-text-content')
 time.sleep(5)
 
 
@@ -67,39 +70,27 @@ time.sleep(5)
 
 #################################################    HUSK AT FINDE FLERE END EN BRØK I LIGNINGEN ######################################
 
-def findFrac(num):
-    try:
-        frac = questions[num].find_elements_by_class_name('mjx-mfrac')
-        tller = frac[num].find_element_by_class_name('mjx-numerator').text
-        nvner = frac[num].find_element_by_class_name('mjx-denominator').text
 
-        equation = questions[num].find_element_by_class_name('mjx-mrow').text
-        fraceqation = equation.replace(tller + "\n" + nvner, ' ' + tller + '/' + nvner)
-        fraceqation = fraceqation.replace("\n", '')
-        return fraceqation
-        print('frac:' + +fraceqation)
-    except:
-        return 'end'
 
+
+#time.sleep(10)
+#frac = question.find_elements_by_class_name('mjx-mfrac')
+#print('\n1------------------------\n\n\n')
+#print(frac[0].text)
+#print("\n----\n")
+#print(frac[1].text)
 
 i = 1
-for question in questions:
+questNum = int((re.findall(r'/ (\d+)', driver.find_element_by_xpath('//*[@class="question-index-indicator"]').text))[0])
+while True:
+    matFes.timer('mjx-mrow', 5, driver, By.CLASS_NAME)
+    question = driver.find_element_by_class_name('mjx-mrow')
     print("\n" + str(i) + '.)')
     try:
         try:
-            fractest = question.find_element_by_class_name('mjx-mfrac').text
+            fracs = question.find_elements_by_class_name('mjx-mfrac')
             print('frac found')
-            fracnum = 0
-            fract=[]
-            while True():
-                frac = fracFind(fracnum)
-                if frac != 'end':
-                    fract.append(frac)
-                else:
-                    break
-                print('test' + fract)
-
-
+            matFes.fracsolver(equation, fracs)
         except:
             equation = question.find_element_by_class_name('mjx-mrow').text
             try:
@@ -112,4 +103,70 @@ for question in questions:
             print (equation)
         except:
             print('Failed to resolve text')
+
+
+    if i == questNum:
+        print("done")
+        break
+    driver.find_element_by_xpath("//button[@class='arrow-button arrow-button-right']").click()
     i += 1
+    time.sleep(2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#i = 1
+#for question in questions:
+#    print("\n" + str(i) + '.)')
+#    try:
+#        try:
+#            fractest = question.find_element_by_class_name('mjx-mfrac').text
+#            print('frac found')
+#            fracnum = 0
+#            fract=[]
+#            while True():
+#                frac = findFrac(fracnum)
+#                if frac:
+#                    fract.append(frac)
+#                else:
+#                    print('break')
+#                    break
+#                print('test' + fract)
+#                fracnum += 1
+#
+#
+#        except:
+#            equation = question.find_element_by_class_name('mjx-mrow').text
+#            try:
+#                print(matFes.solver(equation))
+#            except:
+#                print('Failed to run solver')
+#    except:
+#        try:
+#            equation = question.find_element_by_class_name('question-text-content').text
+#            print (equation)
+#        except:
+#            print('Failed to resolve text')
+#    i += 1
+#
