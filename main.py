@@ -20,11 +20,10 @@ try:
     login = f.readlines()
     f.close()
 except:
-    print('File does not exist')
     login[0] = raw_input("Skriv dit uni-login brugernavn: ")
     login[1] = getpass.getpass("Skriv dit uni-login password: ")
     f = open('login', 'w+')
-    f.write(login[0]+"\n"+login[1])
+    f.write(login[0]+"\t"+login[1]+"\n")
     print(login)
 
 
@@ -42,9 +41,7 @@ driver.get('https://matematikfessor.dk/ext/unilogin/login/?r=https%3A%2F%2Fwww.m
 
 # login
 matFes.timer('user', 5, driver, By.ID)
-driver.find_element_by_name('user').send_keys(login[0])
-driver.find_element_by_name('pass').send_keys(login[1])
-
+driver.find_element_by_name('user').send_keys(login)
 # open the module
 #matFes.timer('//div[@class="testBar hideTime ready"]', 15, driver, By.XPATH)
 #driver.find_element_by_xpath('//div[@class="testBar hideTime ready"]/span[@class="wrapper"]/span[@class="title"]').click()
@@ -57,16 +54,7 @@ driver.find_element_by_name('pass').send_keys(login[1])
 
 # potenser har mjx-sup som class
 # kvadratrod er mjx-surd
-
-matFes.timer('question-header', 214783600, driver, By.CLASS_NAME)
-matFes.timer('question-content', 15, driver, By.CLASS_NAME)
 #questions = driver.find_elements_by_class_name('card-scroller-child')
-
-questions = driver.find_elements_by_class_name('question-text-content')
-time.sleep(5)
-
-
-
 
 #################################################    HUSK AT FINDE FLERE END EN BRØK I LIGNINGEN ######################################
 
@@ -80,23 +68,29 @@ time.sleep(5)
 #print("\n----\n")
 #print(frac[1].text)
 
+
+matFes.timer('question-header', 214783600, driver, By.CLASS_NAME)
+matFes.timer('question-content', 15, driver, By.CLASS_NAME)
+
 i = 1
 questNum = int((re.findall(r'/ (\d+)', driver.find_element_by_xpath('//*[@class="question-index-indicator"]').text))[0])
 while True:
+    time.sleep(2)
     matFes.timer('mjx-mrow', 5, driver, By.CLASS_NAME)
     question = driver.find_element_by_class_name('mjx-mrow')
     print("\n" + str(i) + '.)')
     try:
         try:
-            fracs = question.find_elements_by_class_name('mjx-mfrac')
-            print('frac found')
+            fracs = question.find_elements_by_xpath('//*[@class="mjx-mfrac"]')
             matFes.fracsolver(equation, fracs)
+            print('fraction found')
         except:
             equation = question.find_element_by_class_name('mjx-mrow').text
             try:
                 print(matFes.solver(equation))
             except:
                 print('Failed to run solver')
+
     except:
         try:
             equation = question.find_element_by_class_name('question-text-content').text

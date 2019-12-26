@@ -49,5 +49,5 @@ def solver(equation):
     except:
         return 0
 
-def fracsolver():
+def fracsolver(equation, fracs):
     print('not done')
