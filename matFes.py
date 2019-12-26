@@ -51,3 +51,16 @@ def solver(equation):
 
 def fracsolver(equation, fracs):
     print('not done')
+    amnt = 0
+    equation = equation.replace("\n", '')
+    while True:
+        try:
+            num = fracs[amnt].find_element_by_class_name('mjx-numerator').text
+            dnum = fracs[amnt].find_element_by_class_name('mjx-denominator').text
+            num = num.replace("\n", '')
+            dnum = dnum.replace("\n", '')
+            equation = equation.replace(num + dnum, '(' + num + ')' + '/' + '(' + dnum + ')')
+            amnt += 1
+        except:
+            break
+    return solver(equation)
