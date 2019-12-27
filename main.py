@@ -115,13 +115,12 @@ for solved in range(questNum):
 
     time.sleep(3)
 
-#------------------------------------------------Mangeler stadig at aflevere opg---------------------------
+
     if solved + 1 == questNum:
         print("done")
         if allFound:
             print('Aflevere opgave')
-            driver.find_element_by_class_name('three-d-button progress-bar-button').click()
+            driver.find_element_by_xpath('//*[@id="frame"]/article/span/button').click()
+            time.sleep(1)
             driver.find_element_by_xpath("//*/button[2]").click()
         break
-
-    #driver.find_element_by_xpath("//button[@class='arrow-button arrow-button-right']").click()
