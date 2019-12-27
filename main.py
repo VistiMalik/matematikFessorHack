@@ -12,6 +12,7 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 import traceback
 
+
 # Get user info
 login = ["",""]
 try:
@@ -60,11 +61,12 @@ matFes.timer('question-content', 15, driver, By.CLASS_NAME)
 
 
 # Answer the questions
+ansMeth = 'A'
+allFound = True
 questNum = int((re.findall(r'/ (\d+)', driver.find_element_by_xpath('//*[@class="question-index-indicator"]').text))[0])
 for solved in range(questNum):
     matFes.timer('mjx-mrow', 5, driver, By.CLASS_NAME)
     question = driver.find_element_by_class_name('mjx-mrow')
-    fracs = question.find_elements_by_xpath('//*[@class="mjx-mfrac"]')
     print("\n" + str(solved + 1) + '.)')
 
     try:
@@ -86,9 +88,40 @@ for solved in range(questNum):
             print('Failed to resolve text')
 
 
+
     print("Svar: " + str(ans))
 
-    if solved == questNum:
+
+    if ansMeth.upper() == "A":
+        ansFound = False
+        answers = driver.find_elements_by_class_name('multiple-choice-answer-label')
+        i = 0
+        for possibilities in answers:
+            answer = answers[i].text.replace("\n",'')
+            answer = answer.encode('utf-8','ignore')
+            answer = answer.replace('−','-')
+            answer = (re.findall(r'([-\d+])', answer))
+            answer = ''.join(answer)
+            if answer == str(ans):
+                answers[i].click()
+                ansFound = True
+                driver.find_element_by_xpath("//*[@class='three-d-button answer-button']").click()
+                break
+            i += 1
+    if not ansFound:
+        print('Kunne ikke finde den rigtige valgmulighed :(')
+        allFound = False
+
+
+    time.sleep(3)
+
+#------------------------------------------------Mangeler stadig at aflevere opg---------------------------
+    if solved + 1 == questNum:
         print("done")
+        if allFound:
+            print('Aflevere opgave')
+            driver.find_element_by_class_name('three-d-button progress-bar-button').click()
+            driver.find_element_by_xpath("//*/button[2]").click()
         break
-    driver.find_element_by_xpath("//button[@class='arrow-button arrow-button-right']").click()
+
+    #driver.find_element_by_xpath("//button[@class='arrow-button arrow-button-right']").click()

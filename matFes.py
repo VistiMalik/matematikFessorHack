@@ -50,7 +50,6 @@ def solver(equation):
         return 0
 
 def fracsolver(equation, fracs):
-    print('not done')
     amnt = 0
     equation = equation.replace("\n", '')
     while True:
