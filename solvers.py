@@ -32,6 +32,7 @@ def decSolver(equation):
     equation = re.sub("=$", '=x', equation)
     # Calculation of the equation
     x = sympy.Symbol('x')
+
     try:
         left, right = equation.split('=')
         eq = sympy.Eq(eval(left), eval(right))
@@ -78,7 +79,6 @@ def txtSolver(equation):
 
     # Andengrads ligninger
     elif re.match(r"Der er givet 2. gradsligningen:", equation):
-        print(equation)
         eqNums = re.findall(r"Der er givet 2\. gradsligningen:(\d+)x2.(\d+)..(\d+)", equation)
         eqNums = eqNums[0]
         a, b, c = int(eqNums[0]), int(eqNums[1]), int(eqNums[2])
@@ -94,11 +94,43 @@ def txtSolver(equation):
                 return 'Ingen løsninger'
             elif d > 0:
                 return '2 løsninger'
+    # Rumfang
+
+    elif re.search(r"Hvor stort er rumfanget af ", equation):
+        if re.search(r"Figuren viser en skitse af en kasse. Siden A er", equation):
+            eqNums = re.findall(r"Figuren viser en skitse af en kasse\. Siden A er (\d+) .. lang, siden B er (\d+) .. lang og siden C er (\d+) (..) lang", equation)
+            eqNums = eqNums[0]
+            a, b, c = int(eqNums[0]), int(eqNums[1]), int(eqNums[2])
+            if eqNums[3] == 'cm':
+                liter = 1000
+            elif eqNums[3] == 'dm':
+                liter = 1
+            res = (str((a*b*c)/liter))
+            return res
+        elif re.match(r"En kasse har en længde på ", equation):
+            eqNums = re.findall(r"En kasse har en længde på (\d+) .., en bredde på (\d+) .. og en højde på (\d+) (..)", equation)
+            eqNums = eqNums[0]
+            a, b, c = int(eqNums[0]), int(eqNums[1]), int(eqNums[2])
+            if eqNums[3] == 'cm':
+                liter = 1000
+            elif eqNums[3] == 'dm':
+                liter = 1
+            res = (str((a*b*c)/liter))
+            return res
+        elif re.match(r"Cylinderen har en højde på ", equation) or re.match(r"En cylinder har en højde på", equation):
+            eqNums = re.findall(r"har en højde på (\d+) cm og en (\w+) af grundfladen på (\d+) cm\.", equation)
+            eqNums = eqNums[0]
+            if eqNums[1] == 'radius':
+                h, r = int(eqNums[0]), int(eqNums[2])
+            elif eqNums[1] == 'diameter':
+                h, r = int(eqNums[0]), int(eqNums[2])/2
+            res = str(r*r*3*h) + ' cm3'
+            return res
+
     elif re.search(r"Hvad er (\d+)% af (\d+)", equation):
         eqNums = re.findall(r"Hvad er (\d+)% af (\d+)")
         eqNums = eqNums[0]
         res = (int(eqNums[1])/100)*int(eqNums[1])
-        print(res)
         return res
 
 
